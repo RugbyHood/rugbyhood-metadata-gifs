@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RugbyHood Highlights</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f4f4f4; }
+    .card { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>RugbyHood Highlight Metadata</h1>
+  <div id="container">Loading...</div>
+
+  <script>
+    fetch('metadata_upload_log.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('container');
+        container.innerHTML = "";
+        data.forEach(item => {
+          const el = document.createElement("div");
+          el.className = "card";
+          el.innerHTML = `
+            <strong>${item.metadata.club}</strong> - ${item.metadata.eventType}<br />
+            <em>${item.metadata.eventDate}</em><br />
+            Player: ${item.metadata.playerName}<br />
+            <a href="${item.gatewayUrl}" target="_blank">View on IPFS</a>
+          `;
+          container.appendChild(el);
+        });
+      });
+  </script>
+</body>
+</html>
