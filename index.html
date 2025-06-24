@@ -32,7 +32,17 @@
             <em>${eventDate} | ${ageGroup}</em><br />
             <img src="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${cid}?filename=${encodeURIComponent(name)}" alt="Highlight GIF" style="max-width: 100%; margin-top: 0.5rem;" /><br />
             <a href="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${cid}?filename=${encodeURIComponent(name)}" target="_blank">View on IPFS</a><br />
-            <small style="word-wrap: break-word;">CID: ${cid}</small>
+            <small style="word-wrap: break-word;">CID: ${cid}</small><br />
+
+            <!-- Crossmint Mint Button -->
+            <div class="mint-button" style="margin-top: 0.5rem;">
+              <crossmint-mint-button
+                collectionId="27b8d5c3-8ce2-4653-95c3-78815d490a3a"
+                projectId="46bdf8a5-65b7-4e23-8ee8-90b5b3483a3c"
+                environment="production"
+                mintConfig='{\"type\":\"erc-721\",\"totalPrice\":\"0\",\"quantity\":\"1\",\"metadata\":{\"name\":\"${club1} vs ${club2} - ${eventType}\",\"image\":\"https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${cid}?filename=${encodeURIComponent(name)}\",\"description\":\"${eventDate} ${ageGroup}\"}}'>
+              </crossmint-mint-button>
+            </div>
           `;
           container.appendChild(el);
         });
@@ -46,3 +56,4 @@
 <div id="container">
   <p>Loading highlights...</p>
 </div>
+<script type="module" src="https://unpkg.com/@crossmint/client-sdk-vanilla-ui@latest/lib/index.js"></script>
