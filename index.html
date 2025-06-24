@@ -1,46 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>RugbyHood Highlights</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      background: #f4f4f4;
-      max-width: 700px;
-      margin: auto;
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('container');
+    if (!container) {
+      console.error("❌ No container element found");
+      return;
     }
-    .card {
-      background: white;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <h1>RugbyHood Highlight Metadata</h1>
-  <div id="container">Loading...</div>
 
-  <script>
     fetch('full_list.json')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(data => {
-        const container = document.getElementById('container');
         container.innerHTML = "";
-        console.log("Loaded items:", data);
+        console.log("✅ Loaded items:", data);
 
         data.forEach(item => {
           const { name, cid, created_at } = item;
-          console.log("Processing item:", name);
-          const match = name.match(/^(\d{4}_\d{2}_\d{2})_(.*?)_vs_(.*?)_.*?_(U\d+).*?-(.*?)\.gif$/i);
-          console.log("Match result:", match);
+          console.log("📄 Processing item:", name);
+          const match = name.match(/^(\d{4}_\d{2}_\d{2})_(.*?)_vs_(.*?)_(U\d+).*?-(.*?)_Highlight\.gif$/i);
+          console.log("🔍 Match result:", match);
           if (!match) return;
 
           const [ , eventDate, club1, club2, ageGroup, eventTypeRaw ] = match;
@@ -59,10 +38,8 @@
         });
       })
       .catch(err => {
-        const container = document.getElementById('container');
-        container.innerHTML = "<p style='color:red;'>Failed to load metadata. Please try again later.</p>";
-        console.error("Error fetching metadata:", err);
+        container.innerHTML = "<p style='color:red;'>❌ Failed to load metadata. Check console for details.</p>";
+        console.error("🔥 Error fetching or parsing metadata:", err);
       });
-  </script>
-</body>
-</html>
+  });
+</script>
