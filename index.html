@@ -42,10 +42,10 @@
     <em>${item.metadata.eventDate}</em><br />
     Player: ${item.metadata.playerName || 'N/A'}<br />
     ${
-      item.gatewayUrl ? `
-        <img src="${item.gatewayUrl}" alt="Highlight GIF" style="max-width: 100%; margin-top: 0.5rem;" /><br />
-        <a href="${item.gatewayUrl}" target="_blank">View on IPFS</a><br />
-        <small style="word-wrap: break-word;">${item.gatewayUrl}</small>
+      item.cid ? `
+        <img src="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${item.cid}" alt="Highlight GIF" style="max-width: 100%; margin-top: 0.5rem;" /><br />
+        <a href="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${item.cid}" target="_blank">View on IPFS</a><br />
+        <small style="word-wrap: break-word;">https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${item.cid}</small>
       ` : '<em>No preview available</em>'
     }
   `;
