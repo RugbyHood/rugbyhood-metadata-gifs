@@ -34,9 +34,13 @@
       .then(data => {
         const container = document.getElementById('container');
         container.innerHTML = "";
+        console.log("Loaded items:", data);
+
         data.forEach(item => {
           const { name, cid, created_at } = item;
+          console.log("Processing item:", name);
           const match = name.match(/^(\d{4}_\d{2}_\d{2})_(.*?)_vs_(.*?)_.*?_(U\d+).*?-(.*?)\.gif$/i);
+          console.log("Match result:", match);
           if (!match) return;
 
           const [ , eventDate, club1, club2, ageGroup, eventTypeRaw ] = match;
