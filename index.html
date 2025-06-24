@@ -29,26 +29,28 @@
   <div id="container">Loading...</div>
 
   <script>
-    fetch('metadata_upload_log.json')
+    fetch('full_list.json')
       .then(response => response.json())
       .then(data => {
         const container = document.getElementById('container');
         container.innerHTML = "";
         data.forEach(item => {
+          const { name, cid, created_at } = item;
+          const match = name.match(/^(\d{4}_\d{2}_\d{2})_(.*?)_vs_(.*?)_.*?_(U\d+).*?-(.*?)\.gif$/i);
+          if (!match) return;
+
+          const [ , eventDate, club1, club2, ageGroup, eventTypeRaw ] = match;
+          const eventType = eventTypeRaw.replace(/_/g, ' ').replace('Highlight', '').trim();
+
           const el = document.createElement("div");
           el.className = "card";
           el.innerHTML = `
-    <strong>${item.metadata.club}</strong> - ${item.metadata.eventType}<br />
-    <em>${item.metadata.eventDate}</em><br />
-    Player: ${item.metadata.playerName || 'N/A'}<br />
-    ${
-      item.cid ? `
-        <img src="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${item.cid}" alt="Highlight GIF" style="max-width: 100%; margin-top: 0.5rem;" /><br />
-        <a href="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${item.cid}" target="_blank">View on IPFS</a><br />
-        <small style="word-wrap: break-word;">https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${item.cid}</small>
-      ` : '<em>No preview available</em>'
-    }
-  `;
+            <strong>${club1} vs ${club2}</strong> - ${eventType}<br />
+            <em>${eventDate} | ${ageGroup}</em><br />
+            <img src="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${cid}?filename=${encodeURIComponent(name)}" alt="Highlight GIF" style="max-width: 100%; margin-top: 0.5rem;" /><br />
+            <a href="https://silver-elderly-bovid-6.mypinata.cloud/ipfs/${cid}?filename=${encodeURIComponent(name)}" target="_blank">View on IPFS</a><br />
+            <small style="word-wrap: break-word;">CID: ${cid}</small>
+          `;
           container.appendChild(el);
         });
       })
