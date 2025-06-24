@@ -4,8 +4,24 @@
   <meta charset="UTF-8" />
   <title>RugbyHood Highlights</title>
   <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f4f4f4; }
-    .card { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f4f4f4;
+      max-width: 700px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -22,13 +38,24 @@
           const el = document.createElement("div");
           el.className = "card";
           el.innerHTML = `
-            <strong>${item.metadata.club}</strong> - ${item.metadata.eventType}<br />
-            <em>${item.metadata.eventDate}</em><br />
-            Player: ${item.metadata.playerName}<br />
-            <a href="${item.gatewayUrl}" target="_blank">View on IPFS</a>
-          `;
+    <strong>${item.metadata.club}</strong> - ${item.metadata.eventType}<br />
+    <em>${item.metadata.eventDate}</em><br />
+    Player: ${item.metadata.playerName || 'N/A'}<br />
+    ${
+      item.gatewayUrl ? `
+        <img src="${item.gatewayUrl}" alt="Highlight GIF" style="max-width: 100%; margin-top: 0.5rem;" /><br />
+        <a href="${item.gatewayUrl}" target="_blank">View on IPFS</a><br />
+        <small style="word-wrap: break-word;">${item.gatewayUrl}</small>
+      ` : '<em>No preview available</em>'
+    }
+  `;
           container.appendChild(el);
         });
+      })
+      .catch(err => {
+        const container = document.getElementById('container');
+        container.innerHTML = "<p style='color:red;'>Failed to load metadata. Please try again later.</p>";
+        console.error("Error fetching metadata:", err);
       });
   </script>
 </body>
